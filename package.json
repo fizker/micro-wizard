@@ -1,0 +1,21 @@
+{
+  "name": "micro-wizard",
+  "version": "1.0.0",
+  "description": "A dev tool for orchestrating micro-services",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "immutable": "^3.8.1",
+    "react": "^15.4.2",
+    "react-router": "^3.0.0",
+    "whatwg-fetch": "^2.0.1"
+  },
+  "keywords": [
+    "microservice"
+  ],
+  "author": "Benjamin Horsleben",
+  "license": "WTFPL"
+}
