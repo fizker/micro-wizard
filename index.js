@@ -5,6 +5,12 @@ import fs from 'fs'
 import Group from './src/Group'
 
 const inputFile = process.argv[2]
+
+if(!inputFile) {
+	console.error('Usage: micro-wizard <config.json>')
+	process.exit(1)
+}
+
 readJSON(inputFile)
 .then(json => {
 	const group = new Group(json)
