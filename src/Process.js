@@ -33,10 +33,10 @@ export default class Process {
 		this.changeState('stopped')
 	}
 
-	onStateChanged(listener:(data:{ state:State, data:any, process:string })=>void) {
+	onStateChanged(listener:(data:{ state:State, data:any })=>void) {
 		this.eventEmitter.on('state-changed', listener)
 	}
-	onMessageReceived(listener:(message:string, metadata:{ channel:string, process:string })=>void) {
+	onMessageReceived(listener:(message:string, metadata:{ channel:string })=>void) {
 		this.eventEmitter.on('message', listener)
 	}
 
@@ -53,10 +53,10 @@ export default class Process {
 			this.changeState('died', { exitCode, signal })
 		})
 		actualProcess.stdout.on('data', data => {
-			this.eventEmitter.emit('message', data.toString(), { channel: 'stdout', process: this.name })
+			this.eventEmitter.emit('message', data.toString(), { channel: 'stdout' })
 		})
 		actualProcess.stderr.on('data', data => {
-			this.eventEmitter.emit('message', data.toString(), { channel: 'stderr', process: this.name })
+			this.eventEmitter.emit('message', data.toString(), { channel: 'stderr' })
 		})
 	}
 
@@ -64,7 +64,7 @@ export default class Process {
 		this.state = state
 		this.stateData = data
 
-		this.eventEmitter.emit('state-changed', { state, data, process: this.name })
+		this.eventEmitter.emit('state-changed', { state, data })
 	}
 
 	stop() {

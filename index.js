@@ -2,21 +2,21 @@
 
 import fs from 'fs'
 
-import Process from './src/Process'
+import Group from './src/Group'
 
 const inputFile = process.argv[2]
 readJSON(inputFile)
 .then(json => {
-	const process = new Process(json.processes[0])
+	const group = new Group(json)
 
-	process.onStateChanged(({ state, data, process }) => {
+	group.onStateChanged(({ state, data, process }) => {
 		console.log('state changed', { state, data, process })
 	})
-	process.onMessageReceived((message, { channel, process }) => {
+	group.onMessageReceived((message, { channel, process }) => {
 		console.log('message received:', message, { channel, process })
 	})
 
-	process.start()
+	return group.startAll()
 })
 .catch(e => console.error(e.stack))
 
