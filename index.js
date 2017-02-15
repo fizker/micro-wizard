@@ -1,6 +1,7 @@
 // @flow
 
 import fs from 'fs'
+import path from 'path'
 
 import Group from './src/Group'
 
@@ -13,7 +14,9 @@ if(!inputFile) {
 
 readJSON(inputFile)
 .then(json => {
-	const group = new Group(json)
+	const group = new Group(json, {
+		pathToConfig: path.dirname(inputFile),
+	})
 
 	group.onStateChanged(({ state, data, process }) => {
 		console.log('state changed', { state, data, process })

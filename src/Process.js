@@ -2,12 +2,10 @@
 
 import { ChildProcess, exec } from 'child_process'
 import EventEmitter from 'events'
+import path from 'path'
 
-const states = {
-	stopped: 'stopped',
-	running: 'running',
-	restarting: 'restarting',
-	stopping: 'stopping',
+type ProcessOptions = {
+	pathToConfig:string,
 }
 
 export default class Process {
@@ -23,10 +21,12 @@ export default class Process {
 
 	eventEmitter:EventEmitter
 
-	constructor(data:ProcessJSON) {
+	constructor(data:ProcessJSON, { pathToConfig }:ProcessOptions) {
 		this.name = data.name
 		this.exec = data.exec
-		this.workingDir = data.workingDir
+		this.workingDir = path.isAbsolute(data.workingDir)
+			? data.workingDir
+			: path.join(pathToConfig, data.workingDir)
 		this.env = data.env
 
 		this.eventEmitter = new EventEmitter
