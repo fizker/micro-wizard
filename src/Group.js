@@ -17,7 +17,7 @@ export default class Group {
 		this.eventEmitter = new EventEmitter
 
 		this.processes = processes.map(x => {
-			const p = new Process(x, { pathToConfig })
+			const p = new Process(x, { sharedEnv, pathToConfig })
 			p.onStateChanged(({ state, data }) => {
 				this.eventEmitter.emit('state-changed', { process: p.name, state, data })
 			})

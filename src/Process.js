@@ -6,6 +6,7 @@ import path from 'path'
 
 type ProcessOptions = {
 	pathToConfig:string,
+	sharedEnv:Env,
 }
 
 export default class Process {
@@ -21,13 +22,13 @@ export default class Process {
 
 	eventEmitter:EventEmitter
 
-	constructor(data:ProcessJSON, { pathToConfig }:ProcessOptions) {
+	constructor(data:ProcessJSON, { pathToConfig, sharedEnv }:ProcessOptions) {
 		this.name = data.name
 		this.exec = data.exec
 		this.workingDir = path.isAbsolute(data.workingDir)
 			? data.workingDir
 			: path.join(pathToConfig, data.workingDir)
-		this.env = data.env
+		this.env = { ...process.env, ...sharedEnv, ...data.env }
 
 		this.eventEmitter = new EventEmitter
 		this.changeState('stopped')
@@ -40,12 +41,12 @@ export default class Process {
 		this.eventEmitter.on('message', listener)
 	}
 
-	start(sharedEnv:Env = {}) {
+	start() {
 		const actualProcess = this.actualProcess = exec(this.exec, {
 			cwd: this.workingDir,
-			env: { ...process.env, ...sharedEnv, ...this.env },
+			env: this.env,
 		})
-		this.changeState('running', { sharedEnv })
+		this.changeState('running')
 
 		actualProcess.on('close', (exitCode, signal) => {
 			if(this.state != 'running') return

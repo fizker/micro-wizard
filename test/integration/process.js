@@ -27,10 +27,13 @@ describe('integration/process.js', () => {
 
 	describe('web server with absolute path', () => {
 		beforeEach(() => {
-			const options = { pathToConfig }
+			const options = {
+				pathToConfig,
+				sharedEnv: { PORT: testData.port },
+			}
 			testData.process = new Process(webserverConfig.absolutePath, options)
 			const promise = new ProcessIsUpPromise(testData.process)
-			testData.process.start({ PORT: testData.port })
+			testData.process.start()
 			return promise
 		})
 
@@ -57,10 +60,13 @@ describe('integration/process.js', () => {
 
 	describe('web server with relative path', () => {
 		beforeEach(() => {
-			const options = { pathToConfig }
+			const options = {
+				pathToConfig,
+				sharedEnv: { PORT: testData.port },
+			}
 			testData.process = new Process(webserverConfig.relativePath, options)
 			const promise = new ProcessIsUpPromise(testData.process)
-			testData.process.start({ PORT: testData.port })
+			testData.process.start()
 			return promise
 		})
 
