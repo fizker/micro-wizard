@@ -17,6 +17,8 @@ describe('integration/process.js', () => {
 	beforeEach(() => {
 		testData = {
 			port: 9000,
+			onStateChanged: fzkes.fake('onStateChanged'),
+			onMessageReceived: fzkes.fake('onMessageReceived'),
 		}
 	})
 	afterEach(() => {
@@ -24,17 +26,25 @@ describe('integration/process.js', () => {
 			return testData.process.stop()
 		}
 	})
+	function createProcess(config, { start = true } = {}) {
+		const options = {
+			pathToConfig,
+			sharedEnv: { PORT: testData.port },
+		}
+
+		testData.process = new Process(config, options)
+
+		testData.process.onMessageReceived(testData.onMessageReceived)
+		testData.process.onStateChanged(testData.onStateChanged)
+
+		const promise = new ProcessIsUpPromise(testData.process)
+		testData.process.start()
+		return promise
+	}
 
 	describe('web server with absolute path', () => {
 		beforeEach(() => {
-			const options = {
-				pathToConfig,
-				sharedEnv: { PORT: testData.port },
-			}
-			testData.process = new Process(webserverConfig.absolutePath, options)
-			const promise = new ProcessIsUpPromise(testData.process)
-			testData.process.start()
-			return promise
+			return createProcess(webserverConfig.absolutePath)
 		})
 
 		it('should have spun a server up', () => {
@@ -47,27 +57,32 @@ describe('integration/process.js', () => {
 
 		describe('calling `process.stop()`', () => {
 			beforeEach(() => {
-				return testData.process.stop()
+				testData.stopPromise = testData.process.stop()
 			})
-			it('should return a promise that resolves when the process is down', () => {
-				const serverResponse = fetch(`http://localhost:${testData.port}`)
+			it('should send the expected state-change message', () => {
+				expect(testData.onStateChanged)
+					.to.have.been.calledWith('stopping')
+			})
+			describe('and it actually stops', () => {
+				beforeEach(() => testData.stopPromise)
 
-				return expect(serverResponse)
-					.to.be.rejectedWith('ECONNREFUSED')
+				it('should return a promise that resolves when the process is down', () => {
+					const serverResponse = fetch(`http://localhost:${testData.port}`)
+
+					return expect(serverResponse)
+						.to.be.rejectedWith('ECONNREFUSED')
+				})
+				it('should send the expected state-change message', () => {
+					expect(testData.onStateChanged)
+						.to.have.been.calledWith('stopped')
+				})
 			})
 		})
 	})
 
 	describe('web server with relative path', () => {
 		beforeEach(() => {
-			const options = {
-				pathToConfig,
-				sharedEnv: { PORT: testData.port },
-			}
-			testData.process = new Process(webserverConfig.relativePath, options)
-			const promise = new ProcessIsUpPromise(testData.process)
-			testData.process.start()
-			return promise
+			return createProcess(webserverConfig.relativePath)
 		})
 
 		it('should have spun a server up', () => {

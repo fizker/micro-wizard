@@ -65,7 +65,7 @@ export default class Process {
 		this.state = state
 		this.stateData = data
 
-		this.eventEmitter.emit('state-changed', { state, data })
+		this.eventEmitter.emit('state-changed', state, data)
 	}
 
 	stop() {
