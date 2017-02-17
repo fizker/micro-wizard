@@ -48,7 +48,7 @@ export default class Process {
 		})
 		this.changeState('running')
 
-		actualProcess.on('close', (exitCode, signal) => {
+		actualProcess.on('exit', (exitCode, signal) => {
 			if(this.state != 'running') return
 
 			this.changeState('died', { exitCode, signal })
@@ -72,6 +72,7 @@ export default class Process {
 		const actualProcess = this.actualProcess
 		this.actualProcess = null
 		if(actualProcess == null) return Promise.resolve()
+		if(this.state === 'died') return Promise.resolve()
 
 		return new Promise((resolve, reject) => {
 			if(this.state != 'restarting') this.changeState('stopping')
