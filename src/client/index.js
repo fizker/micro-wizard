@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import { OverviewView } from './views'
+import { MainRoute } from './routes'
 
 const x = 1, y = 2
 
@@ -60,6 +60,6 @@ const clientModel = {
 	]
 }
 
-ReactDOM.render(<OverviewView
+ReactDOM.render(<MainRoute
 	{...clientModel}
 />, document.querySelector('#root'))

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Link } from 'react-router'
 import classnames from 'classnames'
 
-export default class OverviewView extends React.Component {
+export default class MainRoute extends React.Component {
 	render() {
 		const { currentlyActiveProcess, processes } = this.props
 

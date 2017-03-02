@@ -5,7 +5,7 @@ const webpack = require('webpack')
 const { WebpackConsoleLogger } = require('webpack-reporter-plugin')
 
 const config = {
-	entry: path.join(__dirname, 'src/client.js'),
+	entry: path.join(__dirname, 'src/client/index.js'),
 	output: {
 		path: path.join(__dirname, 'build'),
 		filename: 'bundle.js',
