@@ -1,1 +1,65 @@
-document.querySelector('#root').innerHTML = 'Hello World'
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+import { OverviewView } from './views'
+
+const x = 1, y = 2
+
+const clientModel = {
+	currentlyActiveProcess: 1,
+	subWindows: [ {
+		location: [x,y],
+		processes: [ 1, 2 ],
+	}, {
+		location: [x,y],
+		processes: [ 1 ],
+	} ],
+	processes: [
+		{
+			id: 1,
+			isEnabled: false,
+			name: 'Disabled process',
+			messages: [ {
+				timestamp: '2017-02-12T23:45Z',
+				message: 'bla bla bla',
+				isUnread: false,
+			} ],
+			notifications: {
+				hasUnreadMessages: false,
+				showUnreadMessages: true,
+				hasStateChanges: false,
+			},
+			stateChanges: [
+				{
+					timestamp: '2017-01-01T01:00Z',
+					state: 'running'
+				}
+			],
+		},
+		{
+			id: 2,
+			isEnabled: true,
+			name: 'Enabled process',
+			messages: [ {
+				timestamp: '2017-02-12T23:45Z',
+				message: 'bla bla bla',
+				isUnread: true,
+			} ],
+			notifications: {
+				hasUnreadMessages: true,
+				showUnreadMessages: true,
+				hasStateChanges: true,
+			},
+			stateChanges: [
+				{
+					timestamp: '2017-01-01T01:00Z',
+					state: 'running'
+				}
+			],
+		},
+	]
+}
+
+ReactDOM.render(<OverviewView
+	{...clientModel}
+/>, document.querySelector('#root'))

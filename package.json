@@ -13,6 +13,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
     "babel-preset-react": "^6.23.0",
+    "classnames": "^2.2.5",
     "css-loader": "^0.26.1",
     "express": "^4.14.0",
     "express-promise": "^0.4.0",
