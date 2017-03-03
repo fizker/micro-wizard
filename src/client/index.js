@@ -5,7 +5,7 @@ import { Route, Router, browserHistory } from 'react-router'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 
-import { MainRoute } from './routes'
+import { MainRoute, ProcessRoute } from './routes'
 
 const x = 1, y = 2
 
@@ -69,6 +69,9 @@ const store = createStore((state = clientModel, action) => state)
 ReactDOM.render(<Provider store={store}>
 	<Router history={browserHistory}>
 		<Route component={MainRoute} path="/">
+			<Route path="processes">
+				<Route path=":id" component={ProcessRoute} />
+			</Route>
 		</Route>
 	</Router>
 </Provider>, document.querySelector('#root'))

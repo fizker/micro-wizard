@@ -29,6 +29,7 @@ export default class MainRoute extends React.Component {
 			>
 				{x.name}
 			</Link>)}
+			{this.props.children}
 		</div>
 	}
 }
