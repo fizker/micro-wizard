@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Route, Router, browserHistory } from 'react-router'
 
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
@@ -66,5 +67,8 @@ const clientModel = {
 const store = createStore((state = clientModel, action) => state)
 
 ReactDOM.render(<Provider store={store}>
-	<MainRoute />
+	<Router history={browserHistory}>
+		<Route component={MainRoute} path="/">
+		</Route>
+	</Router>
 </Provider>, document.querySelector('#root'))
