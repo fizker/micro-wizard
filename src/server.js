@@ -17,7 +17,7 @@ app.use((req, res, next) => {
 	res.send(`<!doctype html>
 		<script src="/socket.io/socket.io.js"></script>
 		<div id="root"></div>
-		<script src="bundle.js"></script>
+		<script src="/bundle.js"></script>
 	`)
 })
 
