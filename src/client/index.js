@@ -1,6 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+
 import { MainRoute } from './routes'
 
 const x = 1, y = 2
@@ -60,6 +63,8 @@ const clientModel = {
 	]
 }
 
-ReactDOM.render(<MainRoute
-	{...clientModel}
-/>, document.querySelector('#root'))
+const store = createStore((state = clientModel, action) => state)
+
+ReactDOM.render(<Provider store={store}>
+	<MainRoute />
+</Provider>, document.querySelector('#root'))

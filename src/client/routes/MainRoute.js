@@ -1,11 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import classnames from 'classnames'
 
+@connect(({ processes }) => ({ processes }))
 export default class MainRoute extends React.Component {
 	render() {
-		const { currentlyActiveProcess, processes } = this.props
+		const { processes } = this.props
 
 		return <div>
 			<style>{`
