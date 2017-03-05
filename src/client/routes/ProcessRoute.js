@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 
+import MessageView from '../MessageView'
+
 @connect(({ processes }) => ({ processes }))
 export default class ProcessRoute extends React.Component {
 	render() {
@@ -12,6 +14,9 @@ export default class ProcessRoute extends React.Component {
 			throw new Error('process not found')
 		}
 
-		return <div>Process {process.id}: {process.name}</div>
+		return <div style={{ display: 'flex', flexDirection: 'column' }}>
+			<h2>Process {process.id}: {process.name}</h2>
+			<MessageView messages={process.messages} style={{flexGrow:1}} />
+		</div>
 	}
 }

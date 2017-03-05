@@ -1,0 +1,15 @@
+.MainRoute {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.MainRoute > :last-child {
+	flex-grow: 1;
+}
+
+.MainRoute__nav__process {
+	background: white;
+}
+.MainRoute__nav__process--enabled {
+	background: blue;
+}

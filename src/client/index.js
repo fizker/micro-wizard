@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 
 import { MainRoute, ProcessRoute } from './routes'
 
+import './index.css'
+
 const x = 1, y = 2
 
 const clientModel = {
