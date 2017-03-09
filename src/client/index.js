@@ -12,23 +12,23 @@ import './index.css'
 const x = 1, y = 2
 
 const clientModel = {
-	currentlyActiveProcess: 1,
-	subWindows: [ {
-		location: [x,y],
+	secondaryWindow: {
+		lines: 3,
 		processes: [ 1, 2 ],
-	}, {
-		location: [x,y],
-		processes: [ 1 ],
-	} ],
+	},
 	processes: [
 		{
 			id: 1,
 			isEnabled: false,
 			name: 'Disabled process',
 			messages: [ {
-				timestamp: '2017-02-12T23:45Z',
-				message: 'bla bla bla',
+				timestamp: '2017-02-12T20:45Z',
+				message: 'message 1',
 				isUnread: false,
+			}, {
+				timestamp: '2017-02-12T23:45Z',
+				message: 'message 3',
+				isUnread: true,
 			} ],
 			notifications: {
 				hasUnreadMessages: false,
@@ -47,8 +47,12 @@ const clientModel = {
 			isEnabled: true,
 			name: 'Enabled process',
 			messages: [ {
+				timestamp: '2017-02-12T22:45Z',
+				message: 'message 2',
+				isUnread: true,
+			}, {
 				timestamp: '2017-02-12T23:45Z',
-				message: 'bla bla bla',
+				message: 'message 4',
 				isUnread: true,
 			} ],
 			notifications: {

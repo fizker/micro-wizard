@@ -3,7 +3,10 @@ import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
 import classnames from 'classnames'
+
 import './MainRoute.css'
+
+import SecondaryWindowView from '../SecondaryWindowView'
 
 @connect(({ processes }) => ({ processes }))
 export default class MainRoute extends React.Component {
@@ -24,6 +27,7 @@ export default class MainRoute extends React.Component {
 				</Link>)}
 			</nav>
 			{this.props.children}
+			<SecondaryWindowView />
 		</div>
 	}
 }

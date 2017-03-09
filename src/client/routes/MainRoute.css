@@ -3,7 +3,7 @@
 	flex-direction: column;
 	height: 100%;
 }
-.MainRoute > :last-child {
+.MainRoute > nav + * {
 	flex-grow: 1;
 }
 
