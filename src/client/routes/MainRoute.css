@@ -11,5 +11,7 @@
 	background: white;
 }
 .MainRoute__nav__process--enabled {
-	background: blue;
+}
+.MainRoute__nav__process--disabled {
+	opacity: 0.3;
 }

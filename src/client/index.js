@@ -20,6 +20,7 @@ const clientModel = {
 		{
 			id: 1,
 			isEnabled: false,
+			currentState: 'stopped',
 			name: 'Disabled process',
 			messages: [ {
 				timestamp: '2017-02-12T20:45Z',
@@ -31,7 +32,7 @@ const clientModel = {
 				isUnread: true,
 			} ],
 			notifications: {
-				hasUnreadMessages: false,
+				hasUnreadMessages: true,
 				showUnreadMessages: true,
 				hasStateChanges: false,
 			},
@@ -39,12 +40,17 @@ const clientModel = {
 				{
 					timestamp: '2017-01-01T01:00Z',
 					state: 'running'
+				},
+				{
+					timestamp: '2017-01-01T02:00Z',
+					state: 'stopped'
 				}
 			],
 		},
 		{
 			id: 2,
 			isEnabled: true,
+			currentState: 'running',
 			name: 'Enabled process',
 			messages: [ {
 				timestamp: '2017-02-12T22:45Z',
