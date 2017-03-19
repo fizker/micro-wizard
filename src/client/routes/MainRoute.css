@@ -1,0 +1,17 @@
+.MainRoute {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.MainRoute > nav + * {
+	flex-grow: 1;
+}
+
+.MainRoute__nav__process {
+	background: white;
+}
+.MainRoute__nav__process--enabled {
+}
+.MainRoute__nav__process--disabled {
+	opacity: 0.3;
+}

@@ -5,6 +5,8 @@ import path from 'path'
 
 import Group from './src/Group'
 
+import './src/server'
+
 const inputFile = process.argv[2]
 
 if(!inputFile) {
