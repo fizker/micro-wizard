@@ -73,6 +73,28 @@ const clientModel = {
 				}
 			],
 		},
+		{
+			id: 3,
+			isEnabled: true,
+			currentState: 'died',
+			name: 'Died',
+			messages: [],
+			notifications: {
+				hasUnreadMessages: false,
+				showUnreadMessages: true,
+			}
+		},
+		{
+			id: 4,
+			isEnabled: true,
+			currentState: 'restarting',
+			name: 'Restarting',
+			messages: [],
+			notifications: {
+				hasUnreadMessages: true,
+				showUnreadMessages: false,
+			}
+		},
 	]
 }
 

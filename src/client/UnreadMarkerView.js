@@ -8,7 +8,7 @@ export default function UnreadMarkerView() {
 		height: 10,
 		display: 'inline-block',
 		background: 'aqua',
-		margin: '0 5px',
+		marginLeft: 5,
 	}
 
 	return <span style={style} />

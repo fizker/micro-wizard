@@ -7,6 +7,7 @@ import classnames from 'classnames'
 import './MainRoute.css'
 
 import SecondaryWindowView from '../SecondaryWindowView'
+import StateView from '../StateView'
 import UnreadMarkerView from '../UnreadMarkerView'
 
 @connect(({ processes }) => ({ processes }))
@@ -27,6 +28,7 @@ export default class MainRoute extends React.Component {
 				>
 					{x.name}
 					{x.notifications.showUnreadMessages && x.notifications.hasUnreadMessages && <UnreadMarkerView />}
+					<StateView state={x.currentState} />
 				</Link>)}
 			</nav>
 			{this.props.children}

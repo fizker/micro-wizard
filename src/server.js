@@ -8,6 +8,7 @@ const server = new http.Server(app)
 const io = socketIO(server)
 
 app.use(express.static(path.join(__dirname, '../build')))
+app.use(express.static(path.join(__dirname, '../static')))
 
 app.use((req, res, next) => {
 	if(!req.accepts('html')) {
