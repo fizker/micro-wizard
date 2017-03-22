@@ -5,7 +5,7 @@ import path from 'path'
 
 import Group from './src/Group'
 
-import './src/server'
+import Server from './src/server'
 
 const inputFile = process.argv[2]
 
@@ -13,6 +13,8 @@ if(!inputFile) {
 	console.error('Usage: micro-wizard <config.json>')
 	process.exit(1)
 }
+
+const port = process.env.PORT || 8096
 
 readJSON(inputFile)
 .then(json => {
@@ -27,7 +29,14 @@ readJSON(inputFile)
 		console.log('message received:', message, { channel, process })
 	})
 
-	return group.startAll()
+	return group
+})
+.then(group => new Server(group))
+.then(server => {
+	return server.open(port)
+		.then(() => {
+			console.log(`Server running at port ${port}`)
+		})
 })
 .catch(e => console.error(e.stack))
 
