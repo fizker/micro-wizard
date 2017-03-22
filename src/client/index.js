@@ -9,12 +9,12 @@ import { MainRoute, ProcessRoute } from './routes'
 
 import './index.css'
 
-const x = 1, y = 2
-
-const clientModel = {
+const clientModel:ClientModel = __bootstrapped.model
+/*
+{
 	secondaryWindow: {
-		lines: 3,
-		processes: [ 1, 2 ],
+		lines: 0,
+		processes: [],
 	},
 	processes: [
 		{
@@ -97,6 +97,7 @@ const clientModel = {
 		},
 	]
 }
+*/
 
 const store = createStore((state = clientModel, action) => state)
 

@@ -14,7 +14,7 @@ if(!inputFile) {
 	process.exit(1)
 }
 
-const port = process.env.PORT || 8096
+const port = +process.env.PORT || 8096
 
 readJSON(inputFile)
 .then(json => {
