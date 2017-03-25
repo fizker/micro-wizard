@@ -2,7 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Router, browserHistory } from 'react-router'
 
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
 
 import { MainRoute, ProcessRoute } from './routes'
@@ -99,7 +100,11 @@ const clientModel:ClientModel = __bootstrapped.model
 }
 */
 
-const store = createStore((state = clientModel, action) => state)
+const rootReducer = (state = clientModel, action) => {
+	console.log('got action', action)
+	return state
+}
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 ReactDOM.render(<Provider store={store}>
 	<Router history={browserHistory}>

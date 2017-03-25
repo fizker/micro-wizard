@@ -13,10 +13,12 @@ const containerStyle = {
 	gridTemplateColumns: 'min-content 1fr',
 }
 
+import { stopProcess, startProcess, restartProcess } from '../actions/process'
+
 @connect(({ processes }) => ({ processes }))
 export default class ProcessRoute extends React.Component {
 	render() {
-		const { routeParams, processes } = this.props
+		const { routeParams, processes, dispatch } = this.props
 		const process = processes.find(x => x.id === +routeParams.id)
 		if(!process) {
 			// TODO: show 404 page instead, but keep URL intact
@@ -26,9 +28,9 @@ export default class ProcessRoute extends React.Component {
 		return <div style={containerStyle}>
 			<h2 style={{gridArea:'header', whiteSpace: 'nowrap'}}>Process {process.id}: {process.name}</h2>
 			<div style={{gridArea:'commands', alignSelf: 'center'}}>
-				{process.currentState === 'stopped' && <CommandButtonView onClick={() => console.log('start', process.id)} command="start"/>}
-				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => console.log('stop', process.id)} command="stop"/>}
-				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => console.log('restart', process.id)} command="restart" />}
+				{process.currentState === 'stopped' && <CommandButtonView onClick={() => dispatch(startProcess(process.id))} command="start"/>}
+				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => dispatch(stopProcess(process.id))} command="stop"/>}
+				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => dispatch(restartProcess(process.id))} command="restart" />}
 			</div>
 			<div style={{gridArea:'status'}}>
 				Current state: {process.currentState}
