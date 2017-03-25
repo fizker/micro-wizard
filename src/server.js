@@ -2,7 +2,7 @@
 
 import path from 'path'
 import express from 'express'
-import socketIO from 'socket.io'
+import SocketIO from 'socket.io'
 import http from 'http'
 
 const _server = Symbol('server')
@@ -10,19 +10,27 @@ const _socketIO = Symbol('socket.io')
 const _group = Symbol('group')
 const _sockets = Symbol('sockets')
 
+declare class Socket {
+	on(key:string, fn:Function) : void;
+	emit(key:string, val:any) : void;
+}
+
 export default class Server {
+	_server:http.Server
+	_socketIO:SocketIO
+	_sockets:Socket[]
 	constructor(group:Group) {
 		const app = express()
-		this[_server] = new http.Server(app)
-		this[_socketIO] = socketIO(this[_server])
+		this._server = new http.Server(app)
+		this._socketIO = new SocketIO(this._server)
 
-		this[_sockets] = []
-		this[_socketIO].on('connection', socket => {
-			this[_sockets].push(socket)
-			console.log('got connection, now have', this[_sockets].length)
+		this._sockets = []
+		this._socketIO.on('connection', (socket:Socket) => {
+			this._sockets.push(socket)
+			console.log('got connection, now have', this._sockets.length)
 			socket.on('disconnect', () => {
-				this[_sockets] = this[_sockets].filter(x => x !== socket)
-				console.log('disconnect, now have', this[_sockets].length)
+				this._sockets = this._sockets.filter(x => x !== socket)
+				console.log('disconnect, now have', this._sockets.length)
 			})
 			socket.on('command', (msg:{process:String, command:Command}) => {
 				console.log(msg)
@@ -52,7 +60,7 @@ export default class Server {
 
 	open(port:number) {
 		return new Promise((resolve, reject) => {
-			this[_server].listen(port, err => err ? reject(err) : resolve())
+			this._server.listen(port, err => err ? reject(err) : resolve())
 		})
 	}
 }
