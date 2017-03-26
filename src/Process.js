@@ -10,6 +10,7 @@ type ProcessOptions = {
 }
 
 export default class Process {
+	id:ClientProcessID
 	name:string
 	exec:string
 	workingDir:string
@@ -22,7 +23,8 @@ export default class Process {
 
 	eventEmitter:EventEmitter
 
-	constructor(data:ProcessJSON, { pathToConfig, sharedEnv }:ProcessOptions) {
+	constructor(id:ClientProcessID, data:ProcessJSON, { pathToConfig, sharedEnv }:ProcessOptions) {
+		this.id = id
 		this.name = data.name
 		this.exec = data.exec
 		this.workingDir = path.isAbsolute(data.workingDir)

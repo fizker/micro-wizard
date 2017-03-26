@@ -16,13 +16,13 @@ export default class Group {
 	constructor({ sharedEnv = {}, processes = [] }:GroupJSON = {}, { pathToConfig }:GroupOptions) {
 		this.eventEmitter = new EventEmitter
 
-		this.processes = processes.map(x => {
-			const p = new Process(x, { sharedEnv, pathToConfig })
+		this.processes = processes.map((x, idx) => {
+			const p = new Process(idx.toString(), x, { sharedEnv, pathToConfig })
 			p.onStateChanged((state, data) => {
-				this.eventEmitter.emit('state-changed', { process: p.name, state, data })
+				this.eventEmitter.emit('state-changed', { process: p.id, state, data })
 			})
 			p.onMessageReceived((message, { channel }) => {
-				this.eventEmitter.emit('message', message, { channel, process: p.name })
+				this.eventEmitter.emit('message', message, { channel, process: p.id })
 			})
 			return p
 		})

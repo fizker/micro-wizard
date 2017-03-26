@@ -19,7 +19,7 @@ import { stopProcess, startProcess, restartProcess } from '../actions/process'
 export default class ProcessRoute extends React.Component {
 	render() {
 		const { routeParams, processes, dispatch } = this.props
-		const process = processes.find(x => x.id === +routeParams.id)
+		const process = processes.find(x => x.id === routeParams.id)
 		if(!process) {
 			// TODO: show 404 page instead, but keep URL intact
 			throw new Error('process not found')

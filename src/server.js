@@ -32,7 +32,7 @@ export default class Server {
 				this._sockets = this._sockets.filter(x => x !== socket)
 				console.log('disconnect, now have', this._sockets.length)
 			})
-			socket.on('command', (msg:{process:String, command:Command}) => {
+			socket.on('command', (msg:{process:ClientProcessID, command:Command}) => {
 				console.log(msg)
 			})
 		})
@@ -67,7 +67,7 @@ export default class Server {
 
 function mapGroupToClient(group) : ClientModel {
 	return {
-		processes: group.processes.map((x, idx) => mapProcessToClient(x, idx)),
+		processes: group.processes.map((x) => mapProcessToClient(x)),
 		secondaryWindow: {
 			lines: 0,
 			processes: [],
@@ -75,9 +75,9 @@ function mapGroupToClient(group) : ClientModel {
 	}
 }
 
-function mapProcessToClient(process, id) {
+function mapProcessToClient(process) {
 	return {
-		id,
+		id: process.id,
 		isEnabled: process.state !== 'stopped',
 		currentState: process.state,
 		name: process.name,

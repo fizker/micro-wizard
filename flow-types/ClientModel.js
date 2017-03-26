@@ -1,4 +1,4 @@
-type ClientProcessID = number
+type ClientProcessID = string
 
 type ClientProcessMessage = {
 	timestamp: string,
