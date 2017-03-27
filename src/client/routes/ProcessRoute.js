@@ -28,9 +28,9 @@ export default class ProcessRoute extends React.Component {
 		return <div style={containerStyle}>
 			<h2 style={{gridArea:'header', whiteSpace: 'nowrap'}}>Process {process.id}: {process.name}</h2>
 			<div style={{gridArea:'commands', alignSelf: 'center'}}>
-				{process.currentState === 'stopped' && <CommandButtonView onClick={() => dispatch(startProcess(process.id))} command="start"/>}
+				{(process.currentState === 'stopped' || process.currentState === 'died') && <CommandButtonView onClick={() => dispatch(startProcess(process.id))} command="start"/>}
 				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => dispatch(stopProcess(process.id))} command="stop"/>}
-				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => dispatch(restartProcess(process.id))} command="restart" />}
+				{process.currentState === 'running' && <CommandButtonView onClick={() => dispatch(restartProcess(process.id))} command="restart" />}
 			</div>
 			<div style={{gridArea:'status'}}>
 				Current state: {process.currentState}

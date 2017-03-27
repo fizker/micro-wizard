@@ -74,7 +74,10 @@ export default class Process {
 		const actualProcess = this.actualProcess
 		this.actualProcess = null
 		if(actualProcess == null) return Promise.resolve()
-		if(this.state === 'died') return Promise.resolve()
+		if(this.state === 'died') {
+			this.changeState('stopped', { exitCode: 0 })
+			return Promise.resolve()
+		}
 
 		return new Promise((resolve, reject) => {
 			if(this.state != 'restarting') this.changeState('stopping')
