@@ -23,14 +23,24 @@ export default class Server {
 	_socketIO:SocketIO
 	_sockets:Socket[]
 	_group:Group
+	_messages:{[id:ClientProcessID]:Array<ClientProcessMessage>}
 
 	constructor(groupJSON:GroupJSON, groupOptions) {
 		const app = express()
+		this._messages = {}
 		this._group = new Group(groupJSON, groupOptions)
 		this._group.onStateChanged((state, process, { data }) => {
 			this.updateClients()
 		})
 		this._group.onMessageReceived((message, process, { channel }) => {
+			const messagesForProcess = this._messages[process] || []
+			messagesForProcess.push({
+				message,
+				isUnread: true,
+				timestamp: new Date().toJSON(),
+			})
+			this._messages[process] = messagesForProcess
+			this.updateClients()
 		})
 
 		this._server = new http.Server(app)
@@ -78,7 +88,7 @@ export default class Server {
 				<div id="root"></div>
 				<script>
 					const __bootstrapped = {
-						model: ${JSON.stringify(mapGroupToClient(this._group))},
+						model: ${JSON.stringify(mapGroupToClient(this._group, this._messages))},
 					}
 				</script>
 				<script src="/bundle.js"></script>
@@ -93,13 +103,13 @@ export default class Server {
 	}
 
 	updateClients() {
-		this._socketIO.emit('data', mapGroupToClient(this._group))
+		this._socketIO.emit('data', mapGroupToClient(this._group, this._messages))
 	}
 }
 
-function mapGroupToClient(group:Group) : ClientModel {
+function mapGroupToClient(group:Group, allMessages) : ClientModel {
 	return {
-		processes: group.processes.map((x) => mapProcessToClient(x)),
+		processes: group.processes.map((x) => mapProcessToClient(x, allMessages[x.id])),
 		secondaryWindow: {
 			lines: 0,
 			processes: [],
@@ -107,7 +117,7 @@ function mapGroupToClient(group:Group) : ClientModel {
 	}
 }
 
-function mapProcessToClient(process) {
+function mapProcessToClient(process, messages = []) {
 	return {
 		id: process.id,
 		isEnabled: process.state !== 'stopped',
@@ -118,7 +128,7 @@ function mapProcessToClient(process) {
 			showUnreadMessages: true,
 			hasStateChanges: false,
 		},
-		messages: [],
+		messages,
 		stateChanges: [],
 	}
 }
