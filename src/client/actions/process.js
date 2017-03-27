@@ -2,15 +2,7 @@
 
 import socket from '../socket'
 
-export const types = {
-	PROCESS_WILL_START: 'PROCESS_WILL_START',
-	PROCESS_DID_START: 'PROCESS_DID_START',
-	PROCESS_WILL_STOP: 'PROCESS_WILL_STOP',
-	PROCESS_DID_STOP: 'PROCESS_DID_STOP',
-	PROCESS_WILL_RESTART: 'PROCESS_WILL_RESTART',
-	PROCESS_DID_RESTART: 'PROCESS_DID_RESTART',
-	PROCESSES_WAS_UPDATED: 'PROCESSES_WAS_UPDATED',
-}
+import { actionTypes as types } from '../constants'
 
 export function processesWasUpdated(data:ClientModel) {
 	return {
