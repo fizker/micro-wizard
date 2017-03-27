@@ -22,10 +22,10 @@ readJSON(inputFile)
 		pathToConfig: path.dirname(inputFile),
 	})
 
-	group.onStateChanged(({ state, data, process }) => {
+	group.onStateChanged((state, process, { data }) => {
 		console.log('state changed', { state, data, process })
 	})
-	group.onMessageReceived((message, { channel, process }) => {
+	group.onMessageReceived((message, process, { channel }) => {
 		console.log('message received:', message, { channel, process })
 	})
 

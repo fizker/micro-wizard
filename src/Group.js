@@ -19,10 +19,10 @@ export default class Group {
 		this.processes = processes.map((x, idx) => {
 			const p = new Process(idx.toString(), x, { sharedEnv, pathToConfig })
 			p.onStateChanged((state, data) => {
-				this.eventEmitter.emit('state-changed', { process: p.id, state, data })
+				this.eventEmitter.emit('state-changed', state, p.id, { data })
 			})
 			p.onMessageReceived((message, { channel }) => {
-				this.eventEmitter.emit('message', message, { channel, process: p.id })
+				this.eventEmitter.emit('message', message, p.id, { channel })
 			})
 			return p
 		})
@@ -36,10 +36,10 @@ export default class Group {
 		return Promise.all(this.processes.map(p => p.stop()))
 	}
 
-	onStateChanged(listener:(data:{ state:State, data:any, process:string })=>void) {
+	onStateChanged(listener:(state:State, process:string, data:{ data:any })=>void) {
 		this.eventEmitter.on('state-changed', listener)
 	}
-	onMessageReceived(listener:(message:string, metadata:{ channel:string, process:string })=>void) {
+	onMessageReceived(listener:(message:string, process:string, metadata:{ channel:string })=>void) {
 		this.eventEmitter.on('message', listener)
 	}
 }
