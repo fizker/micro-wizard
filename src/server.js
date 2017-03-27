@@ -5,6 +5,9 @@ import express from 'express'
 import SocketIO from 'socket.io'
 import http from 'http'
 
+// For flow, to do type-checking
+import Group from './Group'
+
 const _server = Symbol('server')
 const _socketIO = Symbol('socket.io')
 const _group = Symbol('group')
@@ -19,8 +22,16 @@ export default class Server {
 	_server:http.Server
 	_socketIO:SocketIO
 	_sockets:Socket[]
+	_group:Group
+
 	constructor(group:Group) {
 		const app = express()
+		this._group = group
+		group.onStateChanged((state, process, { data }) => {
+		})
+		group.onMessageReceived((message, process, { channel }) => {
+		})
+
 		this._server = new http.Server(app)
 		this._socketIO = new SocketIO(this._server)
 
@@ -32,8 +43,24 @@ export default class Server {
 				this._sockets = this._sockets.filter(x => x !== socket)
 				console.log('disconnect, now have', this._sockets.length)
 			})
-			socket.on('command', (msg:{process:ClientProcessID, command:Command}) => {
-				console.log(msg)
+			socket.on('command', ({ process, command }:{process:ClientProcessID, command:Command}) => {
+				const p = this._group.processes.find(x => x.id === process)
+				if(!p) {
+					console.error(`Unknown process id: ${process}`)
+					throw new Error(`Unknown process id: ${process}`)
+				}
+
+				switch(command) {
+				case 'start':
+					p.start()
+					return
+				case 'stop':
+					p.stop()
+					return
+				case 'restart':
+					p.restart()
+					return
+				}
 			})
 		})
 
