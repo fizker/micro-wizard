@@ -3,8 +3,6 @@
 import fs from 'fs'
 import path from 'path'
 
-import Group from './src/Group'
-
 import Server from './src/server'
 
 const inputFile = process.argv[2]
@@ -17,21 +15,9 @@ if(!inputFile) {
 const port = +process.env.PORT || 8096
 
 readJSON(inputFile)
-.then(json => {
-	const group = new Group(json, {
-		pathToConfig: path.dirname(inputFile),
-	})
-
-	group.onStateChanged((state, process, { data }) => {
-		console.log('state changed', { state, data, process })
-	})
-	group.onMessageReceived((message, process, { channel }) => {
-		console.log('message received:', message, { channel, process })
-	})
-
-	return group
-})
-.then(group => new Server(group))
+.then(group => new Server(group, {
+	pathToConfig: path.dirname(inputFile),
+}))
 .then(server => {
 	return server.open(port)
 		.then(() => {

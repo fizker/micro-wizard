@@ -10,7 +10,7 @@ import path from 'path'
 
 import * as webserverConfig from './configs/simple-webserver/index'
 const pathToConfig = path.join(__dirname, 'configs/simple-webserver')
-import Process from '../../src/Process'
+import Process from '../../src/server/Process'
 
 describe('integration/process.js', () => {
 	let testData:any

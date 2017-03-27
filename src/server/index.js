@@ -24,13 +24,13 @@ export default class Server {
 	_sockets:Socket[]
 	_group:Group
 
-	constructor(group:Group) {
+	constructor(groupJSON:GroupJSON, groupOptions) {
 		const app = express()
-		this._group = group
-		group.onStateChanged((state, process, { data }) => {
+		this._group = new Group(groupJSON, groupOptions)
+		this._group.onStateChanged((state, process, { data }) => {
 			this.updateClients()
 		})
-		group.onMessageReceived((message, process, { channel }) => {
+		this._group.onMessageReceived((message, process, { channel }) => {
 		})
 
 		this._server = new http.Server(app)
@@ -65,8 +65,8 @@ export default class Server {
 			})
 		})
 
-		app.use(express.static(path.join(__dirname, '../build')))
-		app.use(express.static(path.join(__dirname, '../static')))
+		app.use(express.static(path.join(__dirname, '../../build')))
+		app.use(express.static(path.join(__dirname, '../../static')))
 
 		app.use((req, res, next) => {
 			if(!req.accepts('html')) {
@@ -78,7 +78,7 @@ export default class Server {
 				<div id="root"></div>
 				<script>
 					const __bootstrapped = {
-						model: ${JSON.stringify(mapGroupToClient(group))},
+						model: ${JSON.stringify(mapGroupToClient(this._group))},
 					}
 				</script>
 				<script src="/bundle.js"></script>
@@ -97,7 +97,7 @@ export default class Server {
 	}
 }
 
-function mapGroupToClient(group) : ClientModel {
+function mapGroupToClient(group:Group) : ClientModel {
 	return {
 		processes: group.processes.map((x) => mapProcessToClient(x)),
 		secondaryWindow: {
