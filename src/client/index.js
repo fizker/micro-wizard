@@ -10,6 +10,9 @@ import { MainRoute, ProcessRoute } from './routes'
 
 import './index.css'
 
+import socket from './socket'
+import { processesWasUpdated } from './actions/process'
+
 const clientModel:ClientModel = __bootstrapped.model
 /*
 {
@@ -105,6 +108,8 @@ const rootReducer = (state = clientModel, action) => {
 	return state
 }
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
+
+socket.on('data', data => store.dispatch(processesWasUpdated(data)))
 
 ReactDOM.render(<Provider store={store}>
 	<Router history={browserHistory}>

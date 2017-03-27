@@ -28,6 +28,7 @@ export default class Server {
 		const app = express()
 		this._group = group
 		group.onStateChanged((state, process, { data }) => {
+			this.updateClients()
 		})
 		group.onMessageReceived((message, process, { channel }) => {
 		})
@@ -89,6 +90,10 @@ export default class Server {
 		return new Promise((resolve, reject) => {
 			this._server.listen(port, err => err ? reject(err) : resolve())
 		})
+	}
+
+	updateClients() {
+		this._socketIO.emit('data', mapGroupToClient(this._group))
 	}
 }
 

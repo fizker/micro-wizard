@@ -9,6 +9,14 @@ export const types = {
 	PROCESS_DID_STOP: 'PROCESS_DID_STOP',
 	PROCESS_WILL_RESTART: 'PROCESS_WILL_RESTART',
 	PROCESS_DID_RESTART: 'PROCESS_DID_RESTART',
+	PROCESSES_WAS_UPDATED: 'PROCESSES_WAS_UPDATED',
+}
+
+export function processesWasUpdated(data:ClientModel) {
+	return {
+		type: types.PROCESSES_WAS_UPDATED,
+		data,
+	}
 }
 
 export function processWillStart(process:ClientProcessID) {
