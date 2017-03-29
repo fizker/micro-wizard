@@ -4,6 +4,21 @@ import socket from '../socket'
 
 import { actionTypes as types } from '../constants'
 
+export function processWillClearMessages(process:ClientProcessID) {
+	return {
+		type: types.PROCESS_WILL_CLEAR_MESSAGES,
+		process,
+	}
+}
+
+export function clearMessages(process:ClientProcessID) {
+	return (dispatch) => {
+		dispatch(processWillClearMessages(process))
+
+		socket.emit('command', { process, command: 'clearMessages' })
+	}
+}
+
 export function processesWasUpdated(data:ClientModel) {
 	return {
 		type: types.PROCESSES_WAS_UPDATED,

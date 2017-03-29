@@ -8,12 +8,12 @@ import MessageView from '../MessageView'
 
 const containerStyle = {
 	display: 'grid',
-	gridTemplateAreas: '"header commands" "status status" "messages messages"',
+	gridTemplateAreas: '"header commands commands" "status status processConfig" "messages messages messages"',
 	gridTemplateRows: 'min-content min-content 1fr',
-	gridTemplateColumns: 'min-content 1fr',
+	gridTemplateColumns: 'min-content 1fr min-content',
 }
 
-import { stopProcess, startProcess, restartProcess } from '../actions/process'
+import { stopProcess, startProcess, restartProcess, clearMessages } from '../actions/process'
 
 @connect(({ processes }) => ({ processes }))
 export default class ProcessRoute extends React.Component {
@@ -34,6 +34,9 @@ export default class ProcessRoute extends React.Component {
 			</div>
 			<div style={{gridArea:'status'}}>
 				Current state: {process.currentState}
+			</div>
+			<div style={{gridArea:'processConfig'}}>
+				<button onClick={() => dispatch(clearMessages(process.id))}>Clear</button>
 			</div>
 			<MessageView messages={process.messages} style={{gridArea:'messages'}} />
 		</div>

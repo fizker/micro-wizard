@@ -71,6 +71,10 @@ export default class Server {
 				case 'restart':
 					p.restart()
 					return
+				case 'clearMessages':
+					this._messages[p.id] = []
+					this.updateClients()
+					return
 				}
 			})
 		})
@@ -124,7 +128,7 @@ function mapProcessToClient(process, messages = []) {
 		currentState: process.state,
 		name: process.name,
 		notifications: {
-			hasUnreadMessages: false,
+			hasUnreadMessages: messages.some(x => x.isUnread),
 			showUnreadMessages: true,
 			hasStateChanges: false,
 		},

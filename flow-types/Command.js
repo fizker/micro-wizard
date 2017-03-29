@@ -1,1 +1,1 @@
-type Command = 'start' | 'restart' | 'stop'
+type Command = 'start' | 'restart' | 'stop' | 'clearMessages'
