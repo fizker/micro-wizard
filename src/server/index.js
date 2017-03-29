@@ -23,7 +23,7 @@ export default class Server {
 	_socketIO:SocketIO
 	_sockets:Socket[]
 	_group:Group
-	_messages:{[id:ClientProcessID]:Array<ClientProcessMessage>}
+	_messages:{[id:string]:Array<ClientProcessMessage>}
 
 	constructor(groupJSON:GroupJSON, groupOptions) {
 		const app = express()
@@ -54,8 +54,8 @@ export default class Server {
 				this._sockets = this._sockets.filter(x => x !== socket)
 				console.log('disconnect, now have', this._sockets.length)
 			})
-			socket.on('command', ({ process, command }:{process:ClientProcessID, command:Command}) => {
-				const p = this._group.processes.find(x => x.id === process)
+			socket.on('command', ({ process, command }:{process:string, command:Command}) => {
+				const p = this._group.processes.find(x => x.name === process)
 				if(!p) {
 					console.error(`Unknown process id: ${process}`)
 					throw new Error(`Unknown process id: ${process}`)
@@ -72,7 +72,7 @@ export default class Server {
 					p.restart()
 					return
 				case 'clearMessages':
-					this._messages[p.id] = []
+					this._messages[p.name] = []
 					this.updateClients()
 					return
 				}
@@ -113,7 +113,7 @@ export default class Server {
 
 function mapGroupToClient(group:Group, allMessages) : ClientModel {
 	return {
-		processes: group.processes.map((x) => mapProcessToClient(x, allMessages[x.id])),
+		processes: group.processes.map((x) => mapProcessToClient(x, allMessages[x.name])),
 		secondaryWindow: {
 			lines: 0,
 			processes: [],
@@ -123,7 +123,6 @@ function mapGroupToClient(group:Group, allMessages) : ClientModel {
 
 function mapProcessToClient(process, messages = []) {
 	return {
-		id: process.id,
 		isEnabled: process.state !== 'stopped',
 		currentState: process.state,
 		name: process.name,

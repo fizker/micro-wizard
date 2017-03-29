@@ -32,7 +32,7 @@ describe('integration/process.js', () => {
 			sharedEnv: { PORT: testData.port },
 		}
 
-		testData.process = new Process('test-process', config, options)
+		testData.process = new Process(config, options)
 
 		testData.process.onMessageReceived(testData.onMessageReceived)
 		testData.process.onStateChanged(testData.onStateChanged)

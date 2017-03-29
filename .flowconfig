@@ -7,3 +7,4 @@
 flow-types/
 
 [options]
+esproposal.decorators=ignore

@@ -16,13 +16,20 @@ export default class Group {
 	constructor({ sharedEnv = {}, processes = [] }:GroupJSON = {}, { pathToConfig }:GroupOptions) {
 		this.eventEmitter = new EventEmitter
 
-		this.processes = processes.map((x, idx) => {
-			const p = new Process(idx.toString(), x, { sharedEnv, pathToConfig })
+		// Ensure that processes have unique names
+		processes.forEach((x, idx) => {
+			if(processes.findIndex(y => y.name === x.name) != idx) {
+				throw new Error(`A process name must be unique. ${x.name} was used more than once.`)
+			}
+		})
+
+		this.processes = processes.map((x) => {
+			const p = new Process(x, { sharedEnv, pathToConfig })
 			p.onStateChanged((state, data) => {
-				this.eventEmitter.emit('state-changed', state, p.id, { data })
+				this.eventEmitter.emit('state-changed', state, p.name, { data })
 			})
 			p.onMessageReceived((message, { channel }) => {
-				this.eventEmitter.emit('message', message, p.id, { channel })
+				this.eventEmitter.emit('message', message, p.name, { channel })
 			})
 			return p
 		})
@@ -36,10 +43,10 @@ export default class Group {
 		return Promise.all(this.processes.map(p => p.stop()))
 	}
 
-	onStateChanged(listener:(state:State, process:ClientProcessID, data:{ data:any })=>void) {
+	onStateChanged(listener:(state:State, process:string, data:{ data:any })=>void) {
 		this.eventEmitter.on('state-changed', listener)
 	}
-	onMessageReceived(listener:(message:string, process:ClientProcessID, metadata:{ channel:string })=>void) {
+	onMessageReceived(listener:(message:string, process:string, metadata:{ channel:string })=>void) {
 		this.eventEmitter.on('message', listener)
 	}
 }

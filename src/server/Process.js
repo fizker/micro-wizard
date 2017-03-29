@@ -16,7 +16,6 @@ function getCleanedProcessEnv() {
 }
 
 export default class Process {
-	id:ClientProcessID
 	name:string
 	exec:string
 	workingDir:string
@@ -29,8 +28,7 @@ export default class Process {
 
 	eventEmitter:EventEmitter
 
-	constructor(id:ClientProcessID, data:ProcessJSON, { pathToConfig, sharedEnv }:ProcessOptions) {
-		this.id = id
+	constructor(data:ProcessJSON, { pathToConfig, sharedEnv }:ProcessOptions) {
 		this.name = data.name
 		this.exec = data.exec
 		this.workingDir = path.isAbsolute(data.workingDir)

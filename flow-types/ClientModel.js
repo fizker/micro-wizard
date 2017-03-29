@@ -1,4 +1,4 @@
-type ClientProcessID = string
+type ClientProcessName = string
 
 type ClientProcessMessage = {
 	timestamp: string,
@@ -11,10 +11,9 @@ type ClientProcessStateChange = {
 }
 
 type ClientProcess = {
-	id: ClientProcessID,
 	isEnabled: bool,
 	currentState: State,
-	name: string,
+	name: ClientProcessName,
 	notifications: {
 		hasUnreadMessages: bool,
 		showUnreadMessages: bool,
@@ -28,6 +27,6 @@ type ClientModel = {
 	processes: Array<ClientProcess>,
 	secondaryWindow: {
 		lines: number,
-		processes: Array<ClientProcessID>,
+		processes: Array<ClientProcessName>,
 	},
 }

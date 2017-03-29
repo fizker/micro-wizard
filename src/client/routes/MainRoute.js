@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
@@ -20,6 +22,11 @@ const containerStyle = {
 
 @connect(({ processes }) => ({ processes }))
 export default class MainRoute extends React.Component {
+	props: {
+		processes: ClientProcess[],
+		children: any, // TODO: Find proper flow replacement for React.PropTypes.node
+		dispatch: Function, // TODO: Properly type redux dispatch func
+	}
 	render() {
 		const { processes, dispatch } = this.props
 
@@ -32,21 +39,21 @@ export default class MainRoute extends React.Component {
 				{shouldShowStartAllButton && <CommandButtonView
 					label="Start all"
 					command="start"
-					onClick={() => processes.forEach(x => { if(shouldShowStartButton(x.currentState)) dispatch(startProcess(x.id)) })}
+					onClick={() => processes.forEach(x => { if(shouldShowStartButton(x.currentState)) dispatch(startProcess(x.name)) })}
 				/>}
 				{shouldShowStopAllButton && <CommandButtonView
 					label="Stop all"
 					command="stop"
-					onClick={() => processes.forEach(x => { if(shouldShowStopButton(x.currentState)) dispatch(stopProcess(x.id)) })}
+					onClick={() => processes.forEach(x => { if(shouldShowStopButton(x.currentState)) dispatch(stopProcess(x.name)) })}
 				/>}
 				{shouldShowRestartAllButton && <CommandButtonView
 					label="Restart all"
 					command="restart"
-					onClick={() => processes.forEach(x => { if(shouldShowRestartButton(x.currentState)) dispatch(restartProcess(x.id)) })}
+					onClick={() => processes.forEach(x => { if(shouldShowRestartButton(x.currentState)) dispatch(restartProcess(x.name)) })}
 				/>}
 				{processes.map(x => <Link
-					key={x.id}
-					to={`/processes/${x.id}`}
+					key={x.name}
+					to={`/processes/${x.name}`}
 					style={{
 						background: 'white',
 						opacity: x.isEnabled ? 1 : 0.3,

@@ -4,14 +4,14 @@ import socket from '../socket'
 
 import { actionTypes as types } from '../constants'
 
-export function processWillClearMessages(process:ClientProcessID) {
+export function processWillClearMessages(process:ClientProcessName) {
 	return {
 		type: types.PROCESS_WILL_CLEAR_MESSAGES,
 		process,
 	}
 }
 
-export function clearMessages(process:ClientProcessID) {
+export function clearMessages(process:ClientProcessName) {
 	return (dispatch) => {
 		dispatch(processWillClearMessages(process))
 
@@ -26,42 +26,42 @@ export function processesWasUpdated(data:ClientModel) {
 	}
 }
 
-export function processWillStart(process:ClientProcessID) {
+export function processWillStart(process:ClientProcessName) {
 	return {
 		type: types.PROCESS_WILL_START,
 		process,
 	}
 }
 
-export function processDidStart(process:ClientProcessID) {
+export function processDidStart(process:ClientProcessName) {
 	return {
 		type: types.PROCESS_DID_START,
 		process,
 	}
 }
 
-export function processWillStop(process:ClientProcessID) {
+export function processWillStop(process:ClientProcessName) {
 	return {
 		type: types.PROCESS_WILL_STOP,
 		process,
 	}
 }
 
-export function processDidStop(process:ClientProcessID) {
+export function processDidStop(process:ClientProcessName) {
 	return {
 		type: types.PROCESS_DID_STOP,
 		process,
 	}
 }
 
-export function processWillRestart(process:ClientProcessID) {
+export function processWillRestart(process:ClientProcessName) {
 	return {
 		type: types.PROCESS_WILL_RESTART,
 		process,
 	}
 }
 
-export function restartProcess(process:ClientProcessID) {
+export function restartProcess(process:ClientProcessName) {
 	return (dispatch) => {
 		dispatch(processWillRestart(process))
 
@@ -69,7 +69,7 @@ export function restartProcess(process:ClientProcessID) {
 	}
 }
 
-export function startProcess(process:ClientProcessID) {
+export function startProcess(process:ClientProcessName) {
 	return (dispatch) => {
 		dispatch(processWillStart(process))
 
@@ -77,7 +77,7 @@ export function startProcess(process:ClientProcessID) {
 	}
 }
 
-export function stopProcess(process:ClientProcessID) {
+export function stopProcess(process:ClientProcessName) {
 	return (dispatch) => {
 		dispatch(processWillStop(process))
 
