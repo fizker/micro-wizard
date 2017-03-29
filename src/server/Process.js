@@ -9,6 +9,12 @@ type ProcessOptions = {
 	sharedEnv:Env,
 }
 
+function getCleanedProcessEnv() {
+	const env = { ...process.env }
+	delete env.PORT
+	return env
+}
+
 export default class Process {
 	id:ClientProcessID
 	name:string
@@ -30,7 +36,7 @@ export default class Process {
 		this.workingDir = path.isAbsolute(data.workingDir)
 			? data.workingDir
 			: path.join(pathToConfig, data.workingDir)
-		this.env = { ...process.env, ...sharedEnv, ...data.env }
+		this.env = { ...getCleanedProcessEnv(), ...sharedEnv, ...data.env }
 
 		this.eventEmitter = new EventEmitter
 		this.changeState('stopped')
