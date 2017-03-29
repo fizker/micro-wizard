@@ -3,6 +3,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
+import { shouldShowStartButton, shouldShowStopButton, shouldShowRestartButton } from '../processStates'
+
 import CommandButtonView from '../CommandButtonView'
 import MessageView from '../MessageView'
 
@@ -28,9 +30,9 @@ export default class ProcessRoute extends React.Component {
 		return <div style={containerStyle}>
 			<h2 style={{gridArea:'header', whiteSpace: 'nowrap'}}>Process {process.id}: {process.name}</h2>
 			<div style={{gridArea:'commands', alignSelf: 'center'}}>
-				{(process.currentState === 'stopped' || process.currentState === 'died') && <CommandButtonView onClick={() => dispatch(startProcess(process.id))} command="start"/>}
-				{process.currentState !== 'stopped' && <CommandButtonView onClick={() => dispatch(stopProcess(process.id))} command="stop"/>}
-				{process.currentState === 'running' && <CommandButtonView onClick={() => dispatch(restartProcess(process.id))} command="restart" />}
+				{shouldShowStartButton(process.currentState) && <CommandButtonView onClick={() => dispatch(startProcess(process.id))} command="start"/>}
+				{shouldShowStopButton(process.currentState) && <CommandButtonView onClick={() => dispatch(stopProcess(process.id))} command="stop"/>}
+				{shouldShowRestartButton(process.currentState) && <CommandButtonView onClick={() => dispatch(restartProcess(process.id))} command="restart" />}
 			</div>
 			<div style={{gridArea:'status'}}>
 				Current state: {process.currentState}

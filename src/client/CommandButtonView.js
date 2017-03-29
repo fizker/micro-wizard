@@ -3,7 +3,9 @@
 import React from 'react'
 
 type Props = {
-	command:Command,
+	label?: string,
+	hasLabel?: bool,
+	command: Command,
 	style?: Object,
 	onClick: ()=>void,
 }
@@ -11,12 +13,18 @@ type Props = {
 const buttonStyle = {
 	textAlign: 'center',
 	height: 30,
-	width: 30,
-	padding: 5,
-	background: 'transparent',
+	minWidth: 30,
+	backgroundColor: 'transparent',
 	border: 0,
 	cursor: 'pointer',
 	margin: '0 5px',
+}
+
+const buttonWithLabelStyle = {
+	...buttonStyle,
+	display: 'inline-flex',
+	flexDirection: 'column',
+	alignItems: 'center',
 }
 
 const imageStyle = {
@@ -25,7 +33,7 @@ const imageStyle = {
 	verticalAlign: 'middle',
 }
 
-export default function CommandButton({ command, onClick, ...props }: Props = {}) {
+export default function CommandButton({ label, hasLabel = label != null, command, onClick, ...props }: Props = {}) {
 	let text
 	let icon
 	let action
@@ -45,7 +53,12 @@ export default function CommandButton({ command, onClick, ...props }: Props = {}
 		break
 	}
 
-	return <button style={buttonStyle}>
+	if(label != null) {
+		text = label
+	}
+
+	return <button style={hasLabel ? buttonWithLabelStyle : buttonStyle} title={hasLabel ? null : text}>
 		<img style={imageStyle} src={icon} alt={text} onClick={() => onClick()} />
+		{hasLabel && text}
 	</button>
 }
