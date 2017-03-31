@@ -30,16 +30,16 @@ export default class Server {
 		this._messages = {}
 		this._group = new Group(groupJSON, groupOptions)
 		this._group.onStateChanged((state, process, { data }) => {
+			if(state === 'died') {
+				const message = data.exitCode
+					? `<exited with code ${data.exitCode}>`
+					: `<signal: ${data.signal}>`
+				this.appendMessage(process, message)
+			}
 			this.updateClients()
 		})
 		this._group.onMessageReceived((message, process, { channel }) => {
-			const messagesForProcess = this._messages[process] || []
-			messagesForProcess.push({
-				message,
-				isUnread: true,
-				timestamp: new Date().toJSON(),
-			})
-			this._messages[process] = messagesForProcess
+			this.appendMessage(process, message)
 			this.updateClients()
 		})
 
@@ -104,6 +104,16 @@ export default class Server {
 		return new Promise((resolve, reject) => {
 			this._server.listen(port, err => err ? reject(err) : resolve())
 		})
+	}
+
+	appendMessage(process:ClientProcessName, message:string) {
+		const messagesForProcess = this._messages[process] || []
+		messagesForProcess.push({
+			message,
+			isUnread: true,
+			timestamp: new Date().toJSON(),
+		})
+		this._messages[process] = messagesForProcess
 	}
 
 	updateClients() {
