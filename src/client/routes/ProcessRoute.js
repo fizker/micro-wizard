@@ -9,9 +9,13 @@ import CommandButtonView from '../CommandButtonView'
 import MessageView from '../MessageView'
 
 const containerStyle = {
+	flexDirection: 'column',
+	display: 'flex',
+}
+const gridStyle = {
 	display: 'grid',
-	gridTemplateAreas: '"header commands commands" "status status processConfig" "messages messages messages"',
-	gridTemplateRows: 'min-content min-content 1fr',
+	gridTemplateAreas: '"header commands commands" "status status processConfig"',
+	gridTemplateRows: 'min-content min-content',
 	gridTemplateColumns: 'min-content 1fr min-content',
 }
 
@@ -33,19 +37,21 @@ export default class ProcessRoute extends React.Component {
 		}
 
 		return <div style={containerStyle}>
-			<h2 style={{gridArea:'header', whiteSpace: 'nowrap'}}>Process {process.name}</h2>
-			<div style={{gridArea:'commands', alignSelf: 'center'}}>
-				{shouldShowStartButton(process.currentState) && <CommandButtonView onClick={() => dispatch(startProcess(process.name))} command="start"/>}
-				{shouldShowStopButton(process.currentState) && <CommandButtonView onClick={() => dispatch(stopProcess(process.name))} command="stop"/>}
-				{shouldShowRestartButton(process.currentState) && <CommandButtonView onClick={() => dispatch(restartProcess(process.name))} command="restart" />}
+			<div style={gridStyle}>
+				<h2 style={{gridArea:'header', whiteSpace: 'nowrap'}}>Process {process.name}</h2>
+				<div style={{gridArea:'commands', alignSelf: 'center'}}>
+					{shouldShowStartButton(process.currentState) && <CommandButtonView onClick={() => dispatch(startProcess(process.name))} command="start"/>}
+					{shouldShowStopButton(process.currentState) && <CommandButtonView onClick={() => dispatch(stopProcess(process.name))} command="stop"/>}
+					{shouldShowRestartButton(process.currentState) && <CommandButtonView onClick={() => dispatch(restartProcess(process.name))} command="restart" />}
+				</div>
+				<div style={{gridArea:'status'}}>
+					Current state: {process.currentState}
+				</div>
+				<div style={{gridArea:'processConfig'}}>
+					<button onClick={() => dispatch(clearMessages(process.name))}>Clear</button>
+				</div>
 			</div>
-			<div style={{gridArea:'status'}}>
-				Current state: {process.currentState}
-			</div>
-			<div style={{gridArea:'processConfig'}}>
-				<button onClick={() => dispatch(clearMessages(process.name))}>Clear</button>
-			</div>
-			<MessageView messages={process.messages} style={{gridArea:'messages'}} />
+			<MessageView messages={process.messages} style={{flex: '1 0 0px'}} />
 		</div>
 	}
 }

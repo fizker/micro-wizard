@@ -17,7 +17,7 @@ import CommandButtonView from '../CommandButtonView'
 const containerStyle = {
 	height: '100%',
 	display: 'grid',
-	gridTemplateRows: 'min-content 1fr min-content'
+	gridTemplateRows: 'min-content 1fr min-content',
 }
 
 @connect(({ processes }) => ({ processes }))

@@ -2,16 +2,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 
 export default function MessageView({ messages, style = {}, lineCount, ...props }) {
-	let displayedMessages = messages.map(x => `${x.timestamp}: ${x.message}`)
-	if(lineCount) {
-		displayedMessages = displayedMessages.slice(-lineCount)
-	}
-
-	return <textarea
+	return <div
 		{...props}
-		readOnly
-		rows={lineCount}
-		value={displayedMessages.join('\n')}
-		style={{ ...style, resize: 'none' }}
-	/>
+		style={{
+			...style,
+			padding: 5,
+			margin: 2,
+			fontSize: '11pt',
+			border: '1px solid black',
+			height: lineCount ? lineCount + 'em' : null,
+			whiteSpace: 'pre-wrap',
+			overflow: 'auto',
+		}}
+	>
+		{messages.map((x, idx) => <div key={idx}>
+			{`${x.timestamp}: ${x.message}`}
+		</div>)}
+	</div>
 }
