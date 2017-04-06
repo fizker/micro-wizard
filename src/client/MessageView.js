@@ -1,8 +1,7 @@
 // @flow
 
 import React from 'react'
-
-const borderWidth = 1
+import stripANSI from 'strip-ansi'
 
 export default class MessageView extends React.Component {
 	props: {
@@ -26,7 +25,7 @@ export default class MessageView extends React.Component {
 				padding: 5,
 				margin: 2,
 				fontSize: '11pt',
-				border: `${borderWidth}px solid black`,
+				border: `1px solid black`,
 				height: lineCount ? lineCount + 'em' : null,
 				whiteSpace: 'pre-wrap',
 				overflow: 'auto',
@@ -35,7 +34,7 @@ export default class MessageView extends React.Component {
 			onScroll={()=>this.viewDidScroll()}
 		>
 			{messages.map((x, idx) => <div key={idx}>
-				{`${x.timestamp}: ${x.message}`}
+				{`${x.timestamp}: ${stripANSI(x.message)}`}
 			</div>)}
 		</div>
 	}
