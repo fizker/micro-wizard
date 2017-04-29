@@ -31,7 +31,7 @@ export default class Server {
 		this._group = new Group(groupJSON, groupOptions)
 		this._group.onStateChanged((state, process, { data }) => {
 			if(state === 'died') {
-				const message = data.exitCode
+				const message = data.exitCode != null
 					? `<exited with code ${data.exitCode}>`
 					: `<signal: ${data.signal}>`
 				this.appendMessage(process, message)
