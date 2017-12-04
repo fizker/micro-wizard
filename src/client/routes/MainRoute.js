@@ -20,13 +20,14 @@ const containerStyle = {
 	gridTemplateRows: 'min-content 1fr min-content',
 }
 
+type Props = {
+	processes: ClientProcess[],
+	children: any, // TODO: Find proper flow replacement for React.PropTypes.node
+	dispatch: Function, // TODO: Properly type redux dispatch func
+}
+
 @connect(({ processes }) => ({ processes }))
-export default class MainRoute extends React.Component {
-	props: {
-		processes: ClientProcess[],
-		children: any, // TODO: Find proper flow replacement for React.PropTypes.node
-		dispatch: Function, // TODO: Properly type redux dispatch func
-	}
+export default class MainRoute extends React.Component<Props> {
 	render() {
 		const { processes, dispatch } = this.props
 
