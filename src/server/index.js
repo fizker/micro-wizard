@@ -5,13 +5,8 @@ import express from 'express'
 import SocketIO from 'socket.io'
 import http from 'http'
 
-// For flow, to do type-checking
 import Group from './Group'
-
-const _server = Symbol('server')
-const _socketIO = Symbol('socket.io')
-const _group = Symbol('group')
-const _sockets = Symbol('sockets')
+import type { GroupOptions } from './Group'
 
 declare class Socket {
 	on(key:string, fn:Function) : void;
@@ -25,7 +20,7 @@ export default class Server {
 	_group:Group
 	_messages:{[id:string]:Array<ClientProcessMessage>}
 
-	constructor(groupJSON:GroupJSON, groupOptions) {
+	constructor(groupJSON:GroupJSON, groupOptions:GroupOptions) {
 		const app = express()
 		this._messages = {}
 		this._group = new Group(groupJSON, groupOptions)
@@ -100,7 +95,7 @@ export default class Server {
 		})
 	}
 
-	open(port:number) {
+	open(port:number) : Promise<void> {
 		return new Promise((resolve, reject) => {
 			this._server.listen(port, err => err ? reject(err) : resolve())
 		})

@@ -1,5 +1,5 @@
 // @flow
-declare function expect():any
+declare function expect(mixed):any
 declare function it(name:string, fn:?()=>void|Promise<*>):void
 declare function describe(name:string, fn:()=>void):void
 declare function beforeEach(fn:()=>void|Promise<*>):void
