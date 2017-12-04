@@ -47,7 +47,7 @@ export default class Process {
 		this.eventEmitter.on('message', listener)
 	}
 
-	start() {
+	start() : void {
 		const actualProcess = this.actualProcess = exec(this.exec, {
 			cwd: this.workingDir,
 			env: this.env,
@@ -74,7 +74,7 @@ export default class Process {
 		this.eventEmitter.emit('state-changed', state, data)
 	}
 
-	stop() {
+	stop() : Promise<void> {
 		const actualProcess = this.actualProcess
 		this.actualProcess = null
 		if(actualProcess == null) return Promise.resolve()
@@ -95,11 +95,10 @@ export default class Process {
 		})
 	}
 
-	restart() {
+	restart() : Promise<void> {
 		if(this.state != 'running') { throw new Error('cannot restart a process that is not running') }
 
-		const sharedEnv = this.stateData.sharedEnv
 		this.changeState('restarting')
-		return this.stop().then(() => this.start(sharedEnv))
+		return this.stop().then(() => this.start())
 	}
 }
