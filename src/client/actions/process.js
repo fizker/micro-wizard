@@ -4,64 +4,77 @@ import socket from '../socket'
 
 import { actionTypes as types } from '../constants'
 
-export function processWillClearMessages(process:ClientProcessName) {
+type ProcessAction = {
+	type: $Keys<types>,
+	process: ClientProcessName,
+}
+type ProcessesWasUpdatedAction = {
+	type: types.PROCESSES_WAS_UPDATED,
+	data: ClientModel,
+}
+export type Action = ProcessAction | ProcessesWasUpdatedAction
+
+type Dispatch = (Action) => void
+type ThunkAction = (Dispatch) => void
+
+export function processWillClearMessages(process:ClientProcessName) : ProcessAction {
 	return {
 		type: types.PROCESS_WILL_CLEAR_MESSAGES,
 		process,
 	}
 }
 
-export function clearMessages(process:ClientProcessName) {
-	return (dispatch) => {
+export function clearMessages(process:ClientProcessName) : ThunkAction {
+	return (dispatch:Dispatch) => {
 		dispatch(processWillClearMessages(process))
 
 		socket.emit('command', { process, command: 'clearMessages' })
 	}
 }
 
-export function processesWasUpdated(data:ClientModel) {
+export function processesWasUpdated(data:ClientModel) : ProcessesWasUpdatedAction {
 	return {
 		type: types.PROCESSES_WAS_UPDATED,
 		data,
 	}
 }
 
-export function processWillStart(process:ClientProcessName) {
+export function processWillStart(process:ClientProcessName) : ProcessAction {
 	return {
 		type: types.PROCESS_WILL_START,
 		process,
 	}
 }
 
-export function processDidStart(process:ClientProcessName) {
+export function processDidStart(process:ClientProcessName) : ProcessAction {
 	return {
 		type: types.PROCESS_DID_START,
 		process,
 	}
 }
 
-export function processWillStop(process:ClientProcessName) {
+export function processWillStop(process:ClientProcessName) : ProcessAction {
 	return {
 		type: types.PROCESS_WILL_STOP,
 		process,
 	}
 }
 
-export function processDidStop(process:ClientProcessName) {
+export function processDidStop(process:ClientProcessName) : ProcessAction {
 	return {
 		type: types.PROCESS_DID_STOP,
 		process,
 	}
 }
 
-export function processWillRestart(process:ClientProcessName) {
+export function processWillRestart(process:ClientProcessName) : ProcessAction {
 	return {
 		type: types.PROCESS_WILL_RESTART,
 		process,
 	}
 }
 
-export function restartProcess(process:ClientProcessName) {
+export function restartProcess(process:ClientProcessName) : ThunkAction {
 	return (dispatch) => {
 		dispatch(processWillRestart(process))
 
@@ -69,7 +82,7 @@ export function restartProcess(process:ClientProcessName) {
 	}
 }
 
-export function startProcess(process:ClientProcessName) {
+export function startProcess(process:ClientProcessName) : ThunkAction {
 	return (dispatch) => {
 		dispatch(processWillStart(process))
 
@@ -77,7 +90,7 @@ export function startProcess(process:ClientProcessName) {
 	}
 }
 
-export function stopProcess(process:ClientProcessName) {
+export function stopProcess(process:ClientProcessName) : ThunkAction {
 	return (dispatch) => {
 		dispatch(processWillStop(process))
 

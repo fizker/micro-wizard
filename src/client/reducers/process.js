@@ -2,7 +2,9 @@
 
 import { actionTypes as types } from '../constants'
 
-export default (state, action) => {
+import type { Action } from '../actions/process'
+
+export default (state:ClientModel, action:Action) => {
 	switch(action.type) {
 	case types.PROCESSES_WAS_UPDATED:
 		return {
