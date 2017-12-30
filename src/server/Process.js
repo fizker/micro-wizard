@@ -24,7 +24,7 @@ export default class Process {
 	actualProcess:?ChildProcess
 
 	state:State
-	stateData:any
+	stateData:{| a: number |}
 
 	eventEmitter:EventEmitter
 
@@ -40,10 +40,10 @@ export default class Process {
 		this.changeState('stopped')
 	}
 
-	onStateChanged(listener:(data:{ state:State, data:any })=>void) {
+	onStateChanged(listener:(data:{ state:State, data:any })=>void) : void {
 		this.eventEmitter.on('state-changed', listener)
 	}
-	onMessageReceived(listener:(message:string, metadata:{ channel:string })=>void) {
+	onMessageReceived(listener:(message:string, metadata:{ channel:string })=>void) : void {
 		this.eventEmitter.on('message', listener)
 	}
 
@@ -67,7 +67,7 @@ export default class Process {
 		})
 	}
 
-	changeState(state:State, data:any = {}) {
+	changeState(state:State, data:any = {}) : void {
 		this.state = state
 		this.stateData = data
 
