@@ -38,7 +38,7 @@ export default class Server {
 			this.updateClients()
 		})
 
-		this._server = new http.Server(app)
+		this._server = new (http.Server:any)(app)
 		this._socketIO = new SocketIO(this._server)
 
 		this._sockets = []
