@@ -3,6 +3,7 @@
 import { ChildProcess, exec } from 'child_process'
 import EventEmitter from 'events'
 import path from 'path'
+import kill from 'tree-kill'
 
 type ProcessOptions = {
 	pathToConfig:string,
@@ -91,7 +92,13 @@ export default class Process {
 				resolve()
 			})
 
-			actualProcess.kill()
+			kill(actualProcess.pid, (err) => {
+				if(err) {
+					reject(err)
+				} else {
+					// The close event handles this case
+				}
+			})
 		})
 	}
 
