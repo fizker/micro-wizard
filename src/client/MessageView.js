@@ -28,11 +28,12 @@ export default class MessageView extends React.Component<Props, State> {
 				...style,
 				padding: 5,
 				margin: 2,
-				fontSize: '11pt',
+				fontSize: '10pt',
 				border: `1px solid black`,
 				height: lineCount == null ? null : lineCount + 'em',
 				whiteSpace: 'pre-wrap',
 				overflow: 'auto',
+				fontFamily: 'monospace',
 			}}
 			ref={(div)=>this.messageView = div}
 			onScroll={()=>this.viewDidScroll()}
