@@ -3,4 +3,5 @@ type ProcessJSON = {
 	exec:string,
 	workingDir:string,
 	env:Env,
+	isDisabled?: bool,
 }

@@ -23,7 +23,7 @@ export default class Group {
 			}
 		})
 
-		this.processes = processes.map((x) => {
+		this.processes = processes.filter(x => !x.isDisabled).map((x) => {
 			const p = new Process(x, { sharedEnv, pathToConfig })
 			p.onStateChanged((state, data) => {
 				this.eventEmitter.emit('state-changed', state, p.name, { data })
