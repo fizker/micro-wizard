@@ -8,3 +8,9 @@ flow-types/
 
 [options]
 esproposal.decorators=ignore
+
+[lints]
+all=warn
+sketchy-null=error
+untyped-type-import=error
+#untyped-import=error

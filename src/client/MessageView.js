@@ -30,7 +30,7 @@ export default class MessageView extends React.Component<Props, State> {
 				margin: 2,
 				fontSize: '11pt',
 				border: `1px solid black`,
-				height: lineCount ? lineCount + 'em' : null,
+				height: lineCount == null ? null : lineCount + 'em',
 				whiteSpace: 'pre-wrap',
 				overflow: 'auto',
 			}}
