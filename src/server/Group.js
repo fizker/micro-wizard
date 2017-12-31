@@ -4,7 +4,7 @@ import EventEmitter from 'events'
 
 import Process from './Process'
 
-type GroupOptions = {
+export type GroupOptions = {
 	pathToConfig:string,
 }
 

@@ -3,18 +3,22 @@
 import React from 'react'
 import stripANSI from 'strip-ansi'
 
-export default class MessageView extends React.Component {
-	props: {
-		lineCount?: number,
-		messages: ClientProcessMessage[],
-		style?: any,
-	}
+type Props = {
+	lineCount?: number,
+	messages: ClientProcessMessage[],
+	style?: any, // TODO: Proper type for style
+}
 
+type State = {
+	scrolledToBottom: bool,
+}
+
+export default class MessageView extends React.Component<Props, State> {
 	state = {
 		scrolledToBottom: true,
 	}
 
-	messageView:HTMLDivElement
+	messageView:?HTMLDivElement
 
 	render() {
 		const { messages, style = {}, lineCount, ...props } = this.props
@@ -26,7 +30,7 @@ export default class MessageView extends React.Component {
 				margin: 2,
 				fontSize: '11pt',
 				border: `1px solid black`,
-				height: lineCount ? lineCount + 'em' : null,
+				height: lineCount == null ? null : lineCount + 'em',
 				whiteSpace: 'pre-wrap',
 				overflow: 'auto',
 			}}
@@ -67,7 +71,7 @@ export default class MessageView extends React.Component {
 			return
 		}
 
-		const lastElement = this.messageView.children[this.messageView.children.length - 1]
+		const lastElement = this.messageView && this.messageView.children[this.messageView.children.length - 1]
 		if(lastElement) {
 			lastElement.scrollIntoView()
 		}

@@ -24,7 +24,7 @@ export default class Process {
 	actualProcess:?ChildProcess
 
 	state:State
-	stateData:any
+	stateData:{| a: number |}
 
 	eventEmitter:EventEmitter
 
@@ -40,14 +40,14 @@ export default class Process {
 		this.changeState('stopped')
 	}
 
-	onStateChanged(listener:(data:{ state:State, data:any })=>void) {
+	onStateChanged(listener:(data:{ state:State, data:any })=>void) : void {
 		this.eventEmitter.on('state-changed', listener)
 	}
-	onMessageReceived(listener:(message:string, metadata:{ channel:string })=>void) {
+	onMessageReceived(listener:(message:string, metadata:{ channel:string })=>void) : void {
 		this.eventEmitter.on('message', listener)
 	}
 
-	start() {
+	start() : void {
 		const actualProcess = this.actualProcess = exec(this.exec, {
 			cwd: this.workingDir,
 			env: this.env,
@@ -67,14 +67,14 @@ export default class Process {
 		})
 	}
 
-	changeState(state:State, data:any = {}) {
+	changeState(state:State, data:any = {}) : void {
 		this.state = state
 		this.stateData = data
 
 		this.eventEmitter.emit('state-changed', state, data)
 	}
 
-	stop() {
+	stop() : Promise<void> {
 		const actualProcess = this.actualProcess
 		this.actualProcess = null
 		if(actualProcess == null) return Promise.resolve()
@@ -95,11 +95,10 @@ export default class Process {
 		})
 	}
 
-	restart() {
+	restart() : Promise<void> {
 		if(this.state != 'running') { throw new Error('cannot restart a process that is not running') }
 
-		const sharedEnv = this.stateData.sharedEnv
 		this.changeState('restarting')
-		return this.stop().then(() => this.start(sharedEnv))
+		return this.stop().then(() => this.start())
 	}
 }

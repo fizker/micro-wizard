@@ -21,13 +21,14 @@ const gridStyle = {
 
 import { stopProcess, startProcess, restartProcess, clearMessages } from '../actions/process'
 
+type Props = {
+	processes: ClientProcess[],
+	dispatch: Function, // TODO: Properly type redux dispatch func
+	routeParams: { id: ClientProcessName },
+}
+
 @connect(({ processes }) => ({ processes }))
-export default class ProcessRoute extends React.Component {
-	props: {
-		processes: ClientProcess[],
-		dispatch: Function, // TODO: Properly type redux dispatch func
-		routeParams: { id: ClientProcessName },
-	}
+export default class ProcessRoute extends React.Component<Props> {
 	render() {
 		const { routeParams, processes, dispatch } = this.props
 		const process = processes.find(x => x.name === routeParams.id)
