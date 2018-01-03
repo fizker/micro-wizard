@@ -114,6 +114,10 @@ export default class Server {
 	updateClients() {
 		this._socketIO.emit('data', mapGroupToClient(this._group, this._messages))
 	}
+
+	stopAllProcesses() {
+		return this._group.stopAll()
+	}
 }
 
 function mapGroupToClient(group:Group, allMessages) : ClientModel {
