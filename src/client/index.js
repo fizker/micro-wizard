@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Route, Router, browserHistory } from 'react-router'
@@ -19,6 +21,11 @@ const store = createStore(reducers, applyMiddleware(thunkMiddleware))
 
 socket.on('data', data => store.dispatch(processesWasUpdated(data)))
 
+const root = document.querySelector('#root')
+if(!root) {
+	throw new Error('root element not found')
+}
+
 ReactDOM.render(<Provider store={store}>
 	<Router history={browserHistory}>
 		<Route component={MainRoute} path="/">
@@ -27,4 +34,4 @@ ReactDOM.render(<Provider store={store}>
 			</Route>
 		</Route>
 	</Router>
-</Provider>, document.querySelector('#root'))
+</Provider>, root)

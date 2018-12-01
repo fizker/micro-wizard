@@ -8,6 +8,11 @@ import http from 'http'
 import Group from './Group'
 import type { GroupOptions } from './Group'
 
+type Process = {
+	state: State,
+	name: string,
+}
+
 declare class Socket {
 	on(key:string, fn:Function) : void;
 	emit(key:string, val:any) : void;
@@ -120,7 +125,7 @@ export default class Server {
 	}
 }
 
-function mapGroupToClient(group:Group, allMessages) : ClientModel {
+function mapGroupToClient(group:Group, allMessages:{[string]:ClientProcessMessage[]}) : ClientModel {
 	return {
 		processes: group.processes.map((x) => mapProcessToClient(x, allMessages[x.name])),
 		secondaryWindow: {
@@ -130,7 +135,7 @@ function mapGroupToClient(group:Group, allMessages) : ClientModel {
 	}
 }
 
-function mapProcessToClient(process, messages = []) {
+function mapProcessToClient(process:Process, messages:ClientProcessMessage[] = []) : ClientProcess {
 	return {
 		isEnabled: process.state !== 'stopped',
 		currentState: process.state,

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react'
+import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import { Link } from 'react-router'
@@ -22,14 +22,18 @@ const containerStyle = {
 
 type Props = {
 	processes: ClientProcess[],
-	children: any, // TODO: Find proper flow replacement for React.PropTypes.node
+	secondaryWindow: {
+		processes: ClientProcess[],
+		lines: number,
+	},
+	children: React.Node,
 	dispatch: Function, // TODO: Properly type redux dispatch func
 }
 
-@connect(({ processes }) => ({ processes }))
+@connect(({ processes, secondaryWindow }) => ({ processes, secondaryWindow }))
 export default class MainRoute extends React.Component<Props> {
 	render() {
-		const { processes, dispatch } = this.props
+		const { processes, secondaryWindow, dispatch } = this.props
 
 		const shouldShowStopAllButton = processes.some(x => shouldShowStopButton(x.currentState))
 		const shouldShowStartAllButton = processes.some(x => shouldShowStartButton(x.currentState))
@@ -66,7 +70,10 @@ export default class MainRoute extends React.Component<Props> {
 				</Link>)}
 			</nav>
 			{this.props.children}
-			<SecondaryWindowView />
+			<SecondaryWindowView
+				processes={processes}
+				secondaryWindow={secondaryWindow}
+			/>
 		</div>
 	}
 }

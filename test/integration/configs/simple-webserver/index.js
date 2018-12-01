@@ -1,3 +1,5 @@
+// @flow
+
 export const absolutePath = {
 	"name": "HTTP server",
 	"exec": "node server.js",

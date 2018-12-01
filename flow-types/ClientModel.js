@@ -10,7 +10,10 @@ type ClientProcessStateChange = {
 	state: State,
 }
 
+opaque type ClientProcessID = string
+
 type ClientProcess = {
+	//id: ClientProcessID,
 	isEnabled: bool,
 	currentState: State,
 	name: ClientProcessName,
