@@ -63,12 +63,15 @@ export default class Server {
 
 				switch(command) {
 				case 'start':
+					this.appendMessage(p.name, '<starting>')
 					p.start()
 					return
 				case 'stop':
+					this.appendMessage(p.name, '<stopping>')
 					p.stop()
 					return
 				case 'restart':
+					this.appendMessage(p.name, '<restarting>')
 					p.restart()
 					return
 				case 'clearMessages':
