@@ -1,35 +1,35 @@
 type ClientProcessName = string
 
-type ClientProcessMessage = {
+type ClientProcessMessage = {|
 	timestamp: string,
 	message: string,
 	isUnread: bool,
-}
-type ClientProcessStateChange = {
+|}
+type ClientProcessStateChange = {|
 	timestamp: string,
 	state: State,
-}
+|}
 
 opaque type ClientProcessID = string
 
-type ClientProcess = {
+type ClientProcess = {|
 	//id: ClientProcessID,
 	isEnabled: bool,
 	currentState: State,
 	name: ClientProcessName,
-	notifications: {
+	notifications: {|
 		hasUnreadMessages: bool,
 		showUnreadMessages: bool,
 		hasStateChanges: bool,
-	},
+	|},
 	messages: Array<ClientProcessMessage>,
 	stateChanges: Array<ClientProcessStateChange>,
-}
+|}
 
-type ClientModel = {
+type ClientModel = {|
 	processes: Array<ClientProcess>,
-	secondaryWindow: {
+	secondaryWindow: {|
 		lines: number,
 		processes: Array<ClientProcessName>,
-	},
-}
+	|},
+|}

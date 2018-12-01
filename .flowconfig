@@ -10,7 +10,6 @@ flow-types/
 esproposal.decorators=ignore
 
 [lints]
-all=warn
-sketchy-null=error
-untyped-type-import=error
-#untyped-import=error
+all=error
+unclear-type=warn
+untyped-import=warn

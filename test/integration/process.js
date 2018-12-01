@@ -1,9 +1,9 @@
 // @flow
 declare function expect(mixed):any
-declare function it(name:string, fn:?()=>void|Promise<*>):void
+declare function it(name:string, fn:?()=>void|Promise<any>):void
 declare function describe(name:string, fn:()=>void):void
-declare function beforeEach(fn:()=>void|Promise<*>):void
-declare function afterEach(fn:()=>void|Promise<*>):void
+declare function beforeEach(fn:()=>void|Promise<any>):void
+declare function afterEach(fn:()=>void|Promise<any>):void
 
 import fetch from 'node-fetch'
 import path from 'path'
