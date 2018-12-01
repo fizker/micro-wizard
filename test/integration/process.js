@@ -111,9 +111,9 @@ describe('integration/process.js', () => {
 						expect(testData.onStateChanged)
 							.to.have.been.calledWith('died', { exitCode: 0 })
 					})
-					it('should change state to `died`', () => {
+					it('should change state to `stopped`', () => {
 						expect(testData.process.state)
-							.to.equal('died')
+							.to.equal('stopped')
 					})
 				})
 				describe('the process is told to stop', () => {

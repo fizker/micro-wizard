@@ -59,6 +59,9 @@ export default class Process {
 			if(this.state != 'running') return
 
 			this.changeState('died', { exitCode, signal })
+			if(exitCode === 0) {
+				this.stop()
+			}
 		})
 		actualProcess.stdout.on('data', data => {
 			this.eventEmitter.emit('message', data.toString(), { channel: 'stdout' })
@@ -78,7 +81,9 @@ export default class Process {
 	stop() : Promise<void> {
 		const actualProcess = this.actualProcess
 		this.actualProcess = null
-		if(actualProcess == null) return Promise.resolve()
+		if(actualProcess == null) {
+			return Promise.resolve()
+		}
 		if(this.state === 'died') {
 			this.changeState('stopped', { exitCode: 0 })
 			return Promise.resolve()
