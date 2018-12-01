@@ -1,4 +1,4 @@
---require babel-register
+--require @babel/register
 --require test/setup
 --ui bdd
 --reporter dot
