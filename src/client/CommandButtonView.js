@@ -6,7 +6,7 @@ type Props = {
 	label?: string,
 	hasLabel?: bool,
 	command: Command,
-	style?: Object,
+	style?: Style,
 	onClick: ()=>void,
 }
 

@@ -1,3 +1,5 @@
+type Style = any
+
 type ClientProcessName = string
 
 type ClientProcessMessage = {|

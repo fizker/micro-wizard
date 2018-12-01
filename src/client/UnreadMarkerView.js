@@ -1,5 +1,6 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+// @flow
+
+import * as React from 'react'
 
 export default function UnreadMarkerView() {
 	const style = {

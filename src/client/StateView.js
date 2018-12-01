@@ -1,5 +1,6 @@
+// @flow
+
 import React from 'react'
-import ReactDOM from 'react-dom'
 
 function iconForState(state:State) {
 	switch(state) {
@@ -16,7 +17,7 @@ function iconForState(state:State) {
 	}
 }
 
-export default function StateView({ state, style = {} }) {
+export default function StateView({ state, style = {} }:{ state:State, style?:Style }) {
 	const stateStyle = {
 		height: 10,
 		margin: '0 5px',

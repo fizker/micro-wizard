@@ -6,7 +6,7 @@ import stripANSI from 'strip-ansi'
 type Props = {
 	lineCount?: number,
 	messages: ClientProcessMessage[],
-	style?: any, // TODO: Proper type for style
+	style?: Style,
 }
 
 type State = {
