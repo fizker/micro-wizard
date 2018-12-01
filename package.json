@@ -4,8 +4,11 @@
   "description": "A dev tool for orchestrating micro-services",
   "main": "index.js",
   "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
     "start": "babel-node index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "install": "npm run build"
   },
   "dependencies": {
     "babel-core": "^6.26.3",
