@@ -24,13 +24,19 @@ import { stopProcess, startProcess, restartProcess, clearMessages } from '../act
 type Props = {
 	processes: ClientProcess[],
 	dispatch: Function, // TODO: Properly type redux dispatch func
-	routeParams: { id: ClientProcessName },
+	match: {
+		path: string,
+		isExact: boolean,
+		url: string,
+		params: { id: ClientProcessName }
+	},
 }
 
 @connect(({ processes }) => ({ processes }))
 export default class ProcessRoute extends React.Component<Props> {
 	render() {
-		const { routeParams, processes, dispatch } = this.props
+		const { match, processes, dispatch } = this.props
+		const routeParams = match.params
 		const process = processes.find(x => x.name === routeParams.id)
 		if(!process) {
 			// TODO: show 404 page instead, but keep URL intact

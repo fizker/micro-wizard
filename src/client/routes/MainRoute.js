@@ -2,8 +2,10 @@
 
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router'
+import { Link, Route } from 'react-router-dom'
 import classnames from 'classnames'
+
+import ProcessRoute from './ProcessRoute'
 
 import { shouldShowStartButton, shouldShowStopButton, shouldShowRestartButton } from '../processStates'
 import { stopProcess, startProcess, restartProcess } from '../actions/process'
@@ -68,7 +70,7 @@ export default class MainRoute extends React.Component<Props> {
 					<StateView state={x.currentState} />
 				</Link>)}
 			</nav>
-			{this.props.children}
+			<Route path="/processes/:id" component={ProcessRoute} />
 			<SecondaryWindowView
 				processes={processes}
 				secondaryWindow={secondaryWindow}

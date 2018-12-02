@@ -2,13 +2,13 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Route, Router, browserHistory } from 'react-router'
+import { Route, BrowserRouter as Router } from 'react-router-dom'
 
 import { createStore, applyMiddleware } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { Provider } from 'react-redux'
 
-import { MainRoute, ProcessRoute } from './routes'
+import { MainRoute } from './routes'
 
 import './index.css'
 
@@ -27,11 +27,7 @@ if(!root) {
 }
 
 ReactDOM.render(<Provider store={store}>
-	<Router history={browserHistory}>
-		<Route component={MainRoute} path="/">
-			<Route path="processes">
-				<Route path=":id" component={ProcessRoute} />
-			</Route>
-		</Route>
+	<Router>
+		<Route component={MainRoute} path="/" />
 	</Router>
 </Provider>, root)
