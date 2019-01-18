@@ -61,7 +61,6 @@ export default class MainRoute extends React.Component<Props> {
 					key={x.name}
 					to={`/processes/${x.name}`}
 					style={{
-						background: 'white',
 						opacity: x.isEnabled ? 1 : 0.3,
 					}}
 				>

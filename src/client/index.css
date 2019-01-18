@@ -16,3 +16,20 @@ body {
 #root > * {
 	flex-grow: 1;
 }
+
+@media (prefers-color-scheme: dark) {
+	html {
+		background: #353535;
+		color: #e1e1e1;
+	}
+	button {
+		color: inherit;
+		background-color: #6f6f6f;
+		border-color: #353535;
+		border-radius: 5px;
+		padding: 2px 5px;
+	}
+	a {
+		color: inherit;
+	}
+}
