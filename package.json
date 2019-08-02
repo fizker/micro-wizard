@@ -46,7 +46,7 @@
     "chai-as-promised": "^7.1.1",
     "flow-bin": "^0.104.0",
     "fzkes": "^0.15.0",
-    "mocha": "^5.2.0",
+    "mocha": "^6.2.0",
     "node-fetch": "^2.6.0",
     "webpack-cli": "^3.3.6"
   },
