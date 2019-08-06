@@ -8,7 +8,8 @@
     "watch": "webpack --watch",
     "start": "node index.babel.js",
     "test": "mocha",
-    "install": "npm run build"
+    "install": "npm run build",
+    "postshrinkwrap": "fix-lockfile package-lock.json"
   },
   "dependencies": {
     "@babel/core": "^7.5.5",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@babel/register": "^7.5.5",
+    "@fizker/fix-lockfile": "^1.1.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "flow-bin": "^0.91.0",
