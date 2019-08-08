@@ -180,6 +180,7 @@ declare class express$Router extends express$Route {
     path: express$Path | express$Path[],
     ...middleware: Array<express$Middleware>
   ): this;
+  use(router: express$Router): this;
   use(path: string, router: express$Router): this;
   handle(
     req: http$IncomingMessage<>,
