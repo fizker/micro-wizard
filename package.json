@@ -44,6 +44,7 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "flow-bin": "^0.104.0",
+    "flow-typed": "^2.6.1",
     "fzkes": "^0.15.0",
     "mocha": "^6.2.0",
     "node-fetch": "^2.6.0",
