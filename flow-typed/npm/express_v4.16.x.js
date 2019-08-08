@@ -118,12 +118,14 @@ declare class express$Response extends http$ServerResponse mixins express$Reques
 declare type express$NextFunction = (err?: ?Error | "route") => mixed;
 declare type express$Middleware =
   | ((
+      // flowlint-next-line deprecated-utility:off
       req: $Subtype<express$Request>,
       res: express$Response,
       next: express$NextFunction
     ) => mixed)
   | ((
       error: Error,
+      // flowlint-next-line deprecated-utility:off
       req: $Subtype<express$Request>,
       res: express$Response,
       next: express$NextFunction
@@ -187,6 +189,7 @@ declare class express$Router extends express$Route {
   param(
     param: string,
     callback: (
+      // flowlint-next-line deprecated-utility:off
       req: $Subtype<express$Request>,
       res: express$Response,
       next: express$NextFunction,
