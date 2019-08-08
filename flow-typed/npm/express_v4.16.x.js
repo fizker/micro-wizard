@@ -198,10 +198,10 @@ declare class express$Router extends express$Route {
     ) => mixed
   ): void;
   (
-    req: http$IncomingMessage<>,
-    res: http$ServerResponse,
-    next?: ?express$NextFunction
-  ): void;
+    req: express$Request,
+    res: express$Response,
+    next: express$NextFunction
+  ): mixed;
 }
 
 /*
